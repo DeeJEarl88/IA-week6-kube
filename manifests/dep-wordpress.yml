@@ -3,33 +3,36 @@ kind: Deployment
 metadata:
   name: wordpress
   labels:
-    
+    app: wp-mysql
+    component: wp-dep
 spec:
-  replicas: 
+  replicas: 2
   selector:
     matchLabels:
-      
+      app: wp-mysql
+      component: wp-dep-container
   strategy:
-    
+    type: Recreate
   template:
     metadata:
       labels:
-        
+        app: wp-mysql
+        component: wp-dep-container
     spec:
       containers:
-      - image: 
+      - image: wordpress:4.9-apache
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST
-          
+          value: "mysql"
         - name: WORDPRESS_DB_PASSWORD
-        
+          value: "supersecretpassw0rd"
         ports:
-        
-          
+          - containerPort: 80
         volumeMounts:
-        
+          - name: wordpress
+            mountPath: /var/www/html
       volumes:
       - name: wordpress
-        
-        
+        persistentVolumeClaim:
+          claimName: wordpress

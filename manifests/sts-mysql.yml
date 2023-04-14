@@ -3,36 +3,40 @@ kind: StatefulSet
 metadata:
   name: mysql
   labels:
-    
+    app: wp-mysql
+    component: mysql-sts
 spec:
-  replicas:
+  replicas: 1
   selector:
     matchLabels:
-      
+      app: wp-mysql
+      component: mysql-sts-container
   serviceName: mysql
   template:
     metadata:
       labels:
-        
+        app: wp-mysql
+        component: mysql-sts-container
     spec:
       containers:
-      - image: 
+      - image: mysql:5.6
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            
+          value: "supersecretpassw0rd"
         ports:
         - containerPort: 3306
           name: mysql
         volumeMounts:
-        
+        - name: mysql-data
+          mountPath: /var/lib/mysql
   volumeClaimTemplates:
   - metadata:
       name: mysql-data
     spec:
       accessModes:
-      storageClassName:
+        - ReadWriteOnce
+      storageClassName: standard
       resources:
         requests:
-          storage:
+          storage: 1Gi

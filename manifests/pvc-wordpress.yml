@@ -3,9 +3,11 @@ kind: PersistentVolumeClaim
 metadata:
   name: wordpress
   labels:
-    
+    app: wp-mysql
+    component: wp-pvc
 spec:
   accessModes:
-
+    - ReadWriteMany
   resources:
-    
+    requests:
+      storage: 1Gi
