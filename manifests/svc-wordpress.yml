@@ -3,10 +3,15 @@ kind: Service
 metadata:
   name: wordpress
   labels:
-    
+    app: wp-mysql
+    component: wp-svc
 spec:
-  type:
+  type: NodePort
   ports:
-    
+  - protocol: TCP
+    port: 80
+    nodePort: 30180
   selector:
-    
+    app: wp-mysql
+    component: wp-dep-container
+  sessionAffinity: ClientIP

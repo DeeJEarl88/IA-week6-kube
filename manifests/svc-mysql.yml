@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: mysql
   labels:
-    
+    app: wp-mysql
+    component: mysql-svc
 spec:
   ports:
-    
+  - protocol: TCP
+    port: 3306
   selector:
-    
-  clusterIP: 
+    app: wp-mysql
+    component: mysql-sts-container
+  clusterIP: None
